@@ -72,9 +72,9 @@ func (storage *LocationStorage) GetByOrg(org string) (*models.Location, error) {
 
 	// Binary search in already sorted by name organizations index
 	low := 0
-	high := len(storage.orgIndex)
+	high := len(storage.orgIndex) - 1
 	for low <= high {
-		mid := low/2 + high/2 //Avoiding potential overflow here
+		mid := (low + high) / 2
 		record := storage.orgIndex[mid]
 		comparison := bytes.Compare(orgBytes[:], record.Organization[:])
 		if comparison > 0 {
@@ -100,10 +100,10 @@ func (storage *LocationStorage) GetByCity(city string) ([]*models.Location, erro
 
 	// Binary search in already sorted by name organizations index
 	low := 0
-	high := len(storage.cityIndex)
+	high := len(storage.cityIndex) - 1
 	mid := 0
 	for low <= high {
-		mid = low/2 + high/2 //Avoiding potential overflow here
+		mid = (low + high) / 2
 		record := storage.cityIndex[mid]
 		comparison := bytes.Compare(cityBytes[:], record.City[:])
 		if comparison > 0 {
@@ -112,6 +112,7 @@ func (storage *LocationStorage) GetByCity(city string) ([]*models.Location, erro
 			high = mid - 1
 		} else {
 			result = append(result, record)
+			break
 		}
 	}
 
@@ -123,7 +124,7 @@ func (storage *LocationStorage) GetByCity(city string) ([]*models.Location, erro
 	// Checking neighbours of found record for matching city
 	for i := mid - 1; i >= 0; i-- {
 		record := storage.cityIndex[i]
-		if bytes.Compare(record.City[:], cityBytes[:]) == 0 {
+		if bytes.Equal(record.City[:], cityBytes[:]) {
 			result = append(result, record)
 		} else {
 			break
@@ -131,7 +132,7 @@ func (storage *LocationStorage) GetByCity(city string) ([]*models.Location, erro
 	}
 	for i := mid + 1; i < len(storage.cityIndex); i++ {
 		record := storage.cityIndex[i]
-		if bytes.Compare(record.City[:], cityBytes[:]) == 0 {
+		if bytes.Equal(record.City[:], cityBytes[:]) {
 			result = append(result, record)
 		} else {
 			break
@@ -153,10 +154,10 @@ func (storage *LocationStorage) GetByPostal(postal string) ([]*models.Location, 
 
 	// Binary search in already sorted by name organizations index
 	low := 0
-	high := len(storage.postalIndex)
+	high := len(storage.postalIndex) - 1
 	mid := 0
 	for low <= high {
-		mid = low/2 + high/2 //Avoiding potential overflow here
+		mid = (low + high) / 2
 		record := storage.postalIndex[mid]
 		comparison := bytes.Compare(postalBytes[:], record.Postal[:])
 		if comparison > 0 {
@@ -165,6 +166,7 @@ func (storage *LocationStorage) GetByPostal(postal string) ([]*models.Location, 
 			high = mid - 1
 		} else {
 			result = append(result, record)
+			break
 		}
 	}
 
@@ -176,7 +178,7 @@ func (storage *LocationStorage) GetByPostal(postal string) ([]*models.Location, 
 	// Checking neighbours of found record for matching city
 	for i := mid - 1; i >= 0; i-- {
 		record := storage.cityIndex[i]
-		if bytes.Compare(record.Postal[:], postalBytes[:]) == 0 {
+		if bytes.Equal(record.Postal[:], postalBytes[:]) {
 			result = append(result, record)
 		} else {
 			break
@@ -184,7 +186,7 @@ func (storage *LocationStorage) GetByPostal(postal string) ([]*models.Location, 
 	}
 	for i := mid + 1; i < len(storage.cityIndex); i++ {
 		record := storage.cityIndex[i]
-		if bytes.Compare(record.Postal[:], postalBytes[:]) == 0 {
+		if bytes.Equal(record.Postal[:], postalBytes[:]) {
 			result = append(result, record)
 		} else {
 			break
@@ -206,10 +208,10 @@ func (storage *LocationStorage) GetByRegion(region string) ([]*models.Location, 
 
 	// Binary search in already sorted by name region index
 	low := 0
-	high := len(storage.regionIndex)
+	high := len(storage.regionIndex) - 1
 	mid := 0
 	for low <= high {
-		mid = low/2 + high/2 //Avoiding potential overflow here
+		mid = (low + high) / 2
 		record := storage.regionIndex[mid]
 		comparison := bytes.Compare(regionBytes[:], record.Region[:])
 		if comparison > 0 {
@@ -218,6 +220,7 @@ func (storage *LocationStorage) GetByRegion(region string) ([]*models.Location, 
 			high = mid - 1
 		} else {
 			result = append(result, record)
+			break
 		}
 	}
 
@@ -229,7 +232,7 @@ func (storage *LocationStorage) GetByRegion(region string) ([]*models.Location, 
 	// Checking neighbours of found record for matching city
 	for i := mid - 1; i >= 0; i-- {
 		record := storage.regionIndex[i]
-		if bytes.Compare(record.Region[:], regionBytes[:]) == 0 {
+		if bytes.Equal(record.Region[:], regionBytes[:]) {
 			result = append(result, record)
 		} else {
 			break
@@ -237,7 +240,7 @@ func (storage *LocationStorage) GetByRegion(region string) ([]*models.Location, 
 	}
 	for i := mid + 1; i < len(storage.regionIndex); i++ {
 		record := storage.regionIndex[i]
-		if bytes.Compare(record.Region[:], regionBytes[:]) == 0 {
+		if bytes.Equal(record.Region[:], regionBytes[:]) {
 			result = append(result, record)
 		} else {
 			break
@@ -259,10 +262,10 @@ func (storage *LocationStorage) GetByCountry(country string) ([]*models.Location
 
 	// Binary search in already sorted by name organizations index
 	low := 0
-	high := len(storage.countryIndex)
+	high := len(storage.countryIndex) - 1
 	mid := 0
 	for low <= high {
-		mid = low/2 + high/2 //Avoiding potential overflow here
+		mid = (low + high) / 2
 		record := storage.countryIndex[mid]
 		comparison := bytes.Compare(countryBytes[:], record.Country[:])
 		if comparison > 0 {
@@ -271,6 +274,7 @@ func (storage *LocationStorage) GetByCountry(country string) ([]*models.Location
 			high = mid - 1
 		} else {
 			result = append(result, record)
+			break
 		}
 	}
 
@@ -282,7 +286,7 @@ func (storage *LocationStorage) GetByCountry(country string) ([]*models.Location
 	// Checking neighbours of found record for matching city
 	for i := mid - 1; i >= 0; i-- {
 		record := storage.cityIndex[i]
-		if bytes.Compare(record.Postal[:], countryBytes[:]) == 0 {
+		if bytes.Equal(record.Postal[:], countryBytes[:]) {
 			result = append(result, record)
 		} else {
 			break
@@ -290,7 +294,7 @@ func (storage *LocationStorage) GetByCountry(country string) ([]*models.Location
 	}
 	for i := mid + 1; i < len(storage.cityIndex); i++ {
 		record := storage.cityIndex[i]
-		if bytes.Compare(record.Postal[:], countryBytes[:]) == 0 {
+		if bytes.Equal(record.Postal[:], countryBytes[:]) {
 			result = append(result, record)
 		} else {
 			break

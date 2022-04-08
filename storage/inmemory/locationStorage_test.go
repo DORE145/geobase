@@ -2,11 +2,14 @@ package inmemory
 
 import (
 	"bytes"
-	"github.com/DORE145/geobase/models"
-	"github.com/DORE145/geobase/utils/sorters"
-	"github.com/stretchr/testify/assert"
 	"sort"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/DORE145/geobase/models"
+	"github.com/DORE145/geobase/utils/sorters"
 )
 
 func TestNewLocationStorage(t *testing.T) {
@@ -39,22 +42,117 @@ func TestNewLocationStorage(t *testing.T) {
 }
 
 func TestLocationStorage_GetByCity(t *testing.T) {
+	data := getTestData()
+	locationsMaps := make(map[int]*models.Location)
+	for i, item := range data {
+		locationsMaps[i*96] = item
+	}
+	sort.Sort(sorters.ByCity(data))
+	storage, _ := NewLocationStorage(locationsMaps, data)
+
+	item, err := storage.GetByCity("cit_Elu")
+	assert.NoError(t, err)
+	assert.NotNil(t, item)
+	assert.Len(t, item, 1)
+
+	var expected [24]byte
+	copy(expected[:], "cit_Elu")
+	assert.Equal(t, expected, item[0].City)
+
+	item, err = storage.GetByCity("something")
+	assert.Error(t, err)
+	assert.Nil(t, item)
 }
 
 func TestLocationStorage_GetByCountry(t *testing.T) {
+	data := getTestData()
+	locationsMaps := make(map[int]*models.Location)
+	for i, item := range data {
+		locationsMaps[i*96] = item
+	}
+	sort.Sort(sorters.ByCity(data))
+	storage, err := NewLocationStorage(locationsMaps, data)
 
+	item, err := storage.GetByCountry("cou_AK")
+	assert.NoError(t, err)
+	assert.NotNil(t, item)
+	require.Len(t, item, 1)
+
+	var expected [8]byte
+	copy(expected[:], "cou_AK")
+	assert.Equal(t, expected, item[0].Country)
+
+	item, err = storage.GetByCountry("something")
+	assert.Error(t, err)
+	assert.Nil(t, item)
 }
 
 func TestLocationStorage_GetByOrg(t *testing.T) {
+	data := getTestData()
+	locationsMaps := make(map[int]*models.Location)
+	for i, item := range data {
+		locationsMaps[i*96] = item
+	}
+	sort.Sort(sorters.ByCity(data))
+	storage, err := NewLocationStorage(locationsMaps, data)
 
+	item, err := storage.GetByOrg("org_Usikywyjajyj")
+	assert.NoError(t, err)
+	assert.NotNil(t, item)
+	var expected [32]byte
+	copy(expected[:], "org_Usikywyjajyj")
+	assert.Equal(t, expected, item.Organization)
+
+	item, err = storage.GetByOrg("something")
+	assert.Error(t, err)
+	assert.Nil(t, item)
 }
 
 func TestLocationStorage_GetByPostal(t *testing.T) {
+	data := getTestData()
+	locationsMaps := make(map[int]*models.Location)
+	for i, item := range data {
+		locationsMaps[i*96] = item
+	}
+	sort.Sort(sorters.ByCity(data))
+	storage, err := NewLocationStorage(locationsMaps, data)
 
+	items, err := storage.GetByPostal("pos_8731")
+	assert.NoError(t, err)
+	assert.NotNil(t, items)
+	require.Len(t, items, 2)
+
+	var expected [12]byte
+	copy(expected[:], "pos_8731")
+	assert.Equal(t, expected, items[0].Postal)
+	assert.Equal(t, expected, items[1].Postal)
+
+	items, err = storage.GetByPostal("something")
+	assert.Error(t, err)
+	assert.Nil(t, items)
 }
 
 func TestLocationStorage_GetByRegion(t *testing.T) {
+	data := getTestData()
+	locationsMaps := make(map[int]*models.Location)
+	for i, item := range data {
+		locationsMaps[i*96] = item
+	}
+	sort.Sort(sorters.ByCity(data))
+	storage, err := NewLocationStorage(locationsMaps, data)
 
+	items, err := storage.GetByRegion("reg_Alimos")
+	assert.NoError(t, err)
+	assert.NotNil(t, items)
+	require.Len(t, items, 1)
+
+	var expected [12]byte
+	copy(expected[:], "reg_Alimos")
+	assert.Equal(t, expected, items[0].Region)
+
+	items, err = storage.GetByRegion("something")
+	assert.Error(t, err)
+	assert.Nil(t, items)
 }
 
 func getTestData() []*models.Location {
@@ -81,6 +179,12 @@ func getTestData() []*models.Location {
 		Longitude:    -51.5246,
 	})
 
+	country = [8]byte{}
+	region = [12]byte{}
+	postal = [12]byte{}
+	city = [24]byte{}
+	org = [32]byte{}
+
 	copy(country[:], "cou_EDE")
 	copy(region[:], "reg_Yjema ")
 	copy(postal[:], "pos_96188")
@@ -97,6 +201,11 @@ func getTestData() []*models.Location {
 		Longitude:    -111.9784,
 	})
 
+	country = [8]byte{}
+	region = [12]byte{}
+	postal = [12]byte{}
+	city = [24]byte{}
+	org = [32]byte{}
 	copy(country[:], "cou_AK")
 	copy(region[:], "reg_I")
 	copy(postal[:], "pos_0679")
@@ -113,6 +222,11 @@ func getTestData() []*models.Location {
 		Longitude:    -53.1396,
 	})
 
+	country = [8]byte{}
+	region = [12]byte{}
+	postal = [12]byte{}
+	city = [24]byte{}
+	org = [32]byte{}
 	copy(country[:], "cou_OMO")
 	copy(region[:], "reg_Alimos")
 	copy(postal[:], "pos_0327")
@@ -129,11 +243,37 @@ func getTestData() []*models.Location {
 		Longitude:    34.4529,
 	})
 
+	country = [8]byte{}
+	region = [12]byte{}
+	postal = [12]byte{}
+	city = [24]byte{}
+	org = [32]byte{}
 	copy(country[:], "cou_UCY")
 	copy(region[:], "reg_O Y")
 	copy(postal[:], "pos_8731")
 	copy(city[:], "cit_Uwol Z Hyt Xavi")
 	copy(org[:], "org_Usikywyjajyj")
+
+	result = append(result, &models.Location{
+		Country:      country,
+		Region:       region,
+		Postal:       postal,
+		City:         city,
+		Organization: org,
+		Latitude:     -152.6465,
+		Longitude:    -45.284,
+	})
+
+	country = [8]byte{}
+	region = [12]byte{}
+	postal = [12]byte{}
+	city = [24]byte{}
+	org = [32]byte{}
+	copy(country[:], "cou_UCY2")
+	copy(region[:], "reg_O Y2")
+	copy(postal[:], "pos_8731")
+	copy(city[:], "cit_Uwol Z Hyt Xavi2")
+	copy(org[:], "org_Usikywyjajyj2")
 
 	result = append(result, &models.Location{
 		Country:      country,
