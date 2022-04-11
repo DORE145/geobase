@@ -155,6 +155,30 @@ func TestLocationStorage_GetByRegion(t *testing.T) {
 	assert.Nil(t, items)
 }
 
+func TestLocationStorage_GetByIndex(t *testing.T) {
+	data := getTestData()
+	locationsMaps := make(map[int]*models.Location)
+	for i, item := range data {
+		locationsMaps[i*96] = item
+	}
+	sort.Sort(sorters.ByCity(data))
+	storage, err := NewLocationStorage(locationsMaps, data)
+
+	item, err := storage.GetByIndex(0)
+	assert.NoError(t, err)
+	assert.NotNil(t, item)
+	assert.Equal(t, data[0].Postal, item.Postal)
+
+	item, err = storage.GetByIndex(5)
+	assert.NoError(t, err)
+	assert.NotNil(t, item)
+	assert.Equal(t, data[5].Postal, item.Postal)
+
+	item, err = storage.GetByIndex(99)
+	assert.Error(t, err)
+	assert.Nil(t, item)
+}
+
 func getTestData() []*models.Location {
 	result := make([]*models.Location, 0)
 	var country [8]byte

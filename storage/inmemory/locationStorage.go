@@ -304,3 +304,13 @@ func (storage *LocationStorage) GetByCountry(country string) ([]*models.Location
 	logrus.Debugf("In the country %s found %d location(s)", country, len(result))
 	return result, nil
 }
+
+func (storage *LocationStorage) GetByIndex(index int) (*models.Location, error) {
+	// Multiplying index by models.LOCATION_SIZE (96) because it is the size of location record, and they stored by the offset
+	location, ok := storage.locationOffsets[index*models.LOCATION_SIZE]
+	if !ok {
+		logrus.Debugf("Location with offset %d not found", index*models.LOCATION_SIZE)
+		return nil, errors.New("location not found")
+	}
+	return location, nil
+}

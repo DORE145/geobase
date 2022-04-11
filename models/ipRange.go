@@ -1,5 +1,7 @@
 package models
 
+const IP_RANGE_SIZE = 12
+
 // IpRange represents the mapping of Ip addresses to the respected location
 // 12 bytes in binary file
 // 4 bytes uint ip_from

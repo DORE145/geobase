@@ -8,4 +8,5 @@ type LocationStorage interface {
 	GetByPostal(string) ([]*models.Location, error)
 	GetByRegion(string) ([]*models.Location, error)
 	GetByCountry(string) ([]*models.Location, error)
+	GetByIndex(int) (*models.Location, error)
 }

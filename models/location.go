@@ -1,5 +1,7 @@
 package models
 
+const LOCATION_SIZE = 96
+
 // Location represents the location of specific organizations and cities
 // 96 bytes per record in binary file
 // sbyte country[8] - country name (starts with "cou_")
