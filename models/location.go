@@ -18,3 +18,25 @@ type Location struct {
 	Latitude     float32
 	Longitude    float32
 }
+
+type LocationResp struct {
+	Country      string  `json:"country"`
+	Region       string  `json:"region"`
+	Postal       string  `json:"postal"`
+	City         string  `json:"city"`
+	Organization string  `json:"organization"`
+	Latitude     float32 `json:"latitude"`
+	Longitude    float32 `json:"longitude"`
+}
+
+func (location Location) ToResponse() LocationResp {
+	return LocationResp{
+		Country:      string(location.Country[:]),
+		Region:       string(location.Region[:]),
+		Postal:       string(location.Postal[:]),
+		City:         string(location.City[:]),
+		Organization: string(location.Organization[:]),
+		Latitude:     location.Latitude,
+		Longitude:    location.Longitude,
+	}
+}
