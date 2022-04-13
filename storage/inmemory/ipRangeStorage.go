@@ -9,16 +9,19 @@ import (
 	"github.com/DORE145/geobase/utils/conversion"
 )
 
+// IpRangeStorage in an inmemory storage for IPRanges
 type IpRangeStorage struct {
 	records []*models.IpRange
 }
 
+// NewIpRangeStorage returns new inmemory IpRangeStorage
 func NewIpRangeStorage(records []*models.IpRange) *IpRangeStorage {
 	return &IpRangeStorage{
 		records: records,
 	}
 }
 
+// GetIPRange returns IpRange for an address from in memory storage
 func (storage *IpRangeStorage) GetIPRange(address uint32) (*models.IpRange, error) {
 	// Binary search implementation, not as graceful as standard library
 	low := 0

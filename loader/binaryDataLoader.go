@@ -77,6 +77,7 @@ func (loader *BinaryDataLoader) LoadIPRanges() ([]*models.IpRange, error) {
 	return ranges, nil
 }
 
+// LoadLocations reads binary file and returns Locations stored in it
 func (loader *BinaryDataLoader) LoadLocations() ([]*models.Location, error) {
 	file, err := os.Open(loader.filePath)
 	if err != nil {
@@ -142,6 +143,7 @@ func (loader *BinaryDataLoader) LoadLocationsCityIndex(locationsList []*models.L
 	return sortedLocations, nil
 }
 
+// readBytesAtOffset simple helper function that reads set amount of bytes starting from specific offset
 func readBytesAtOffset(file *os.File, offset int64, number int) []byte {
 	b := make([]byte, number)
 

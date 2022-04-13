@@ -11,6 +11,7 @@ import (
 	"github.com/DORE145/geobase/utils/sorters"
 )
 
+// LocationStorage is an inmemory storage for Locations with several indexes
 type LocationStorage struct {
 	locationOffsets map[int]*models.Location
 	cityIndex       []*models.Location
@@ -20,6 +21,7 @@ type LocationStorage struct {
 	regionIndex     []*models.Location
 }
 
+// NewLocationStorage constructs new inmemory LocationStorage and indexes for different fields
 func NewLocationStorage(locationOffsets map[int]*models.Location, cityIndex []*models.Location) (*LocationStorage, error) {
 	// copying references from already sorted cityIndex and creating indexes for all other fields in Location
 	// by sorting them

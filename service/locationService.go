@@ -7,11 +7,13 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// LocationService is a service that retrieves locations data and processes it if needed
 type LocationService struct {
 	storage storage.LocationStorage
 	ctx     context.Context
 }
 
+// NewLocationService constructs and returns new LocationService
 func NewLocationService(storage storage.LocationStorage, ctx context.Context) *LocationService {
 	return &LocationService{
 		storage: storage,
@@ -19,6 +21,7 @@ func NewLocationService(storage storage.LocationStorage, ctx context.Context) *L
 	}
 }
 
+// GetLocationByOrg retrieves location of organization
 func (service *LocationService) GetLocationByOrg(org string) (*models.Location, error) {
 	result, err := service.storage.GetByOrg(org)
 	if err != nil {
@@ -29,6 +32,7 @@ func (service *LocationService) GetLocationByOrg(org string) (*models.Location, 
 	return result, err
 }
 
+// GetLocationsByCity retrieves all locations from a city
 func (service *LocationService) GetLocationsByCity(city string) ([]*models.Location, error) {
 	result, err := service.storage.GetByCity(city)
 	if err != nil {
@@ -39,6 +43,7 @@ func (service *LocationService) GetLocationsByCity(city string) ([]*models.Locat
 	return result, err
 }
 
+// GetLocationsByPostal retrieves all locations with a specific postal code
 func (service *LocationService) GetLocationsByPostal(postal string) ([]*models.Location, error) {
 	result, err := service.storage.GetByPostal(postal)
 	if err != nil {
@@ -48,6 +53,8 @@ func (service *LocationService) GetLocationsByPostal(postal string) ([]*models.L
 	}
 	return result, err
 }
+
+// GetLocationsByRegion retrieves all locations in a specific region
 func (service *LocationService) GetLocationsByRegion(region string) ([]*models.Location, error) {
 	result, err := service.storage.GetByRegion(region)
 	if err != nil {
@@ -57,6 +64,8 @@ func (service *LocationService) GetLocationsByRegion(region string) ([]*models.L
 	}
 	return result, err
 }
+
+// GetLocationsByCountry  retrieves all locations in a specific country
 func (service *LocationService) GetLocationsByCountry(country string) ([]*models.Location, error) {
 	result, err := service.storage.GetByCountry(country)
 	if err != nil {

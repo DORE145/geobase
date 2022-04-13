@@ -8,16 +8,19 @@ import (
 	"github.com/DORE145/geobase/service"
 )
 
+// LocationController prepares responses for location endpoints
 type LocationController struct {
 	LocationService service.LocationService
 }
 
+// NewLocationController creates new LocationController
 func NewLocationController(service service.LocationService) LocationController {
 	return LocationController{
 		LocationService: service,
 	}
 }
 
+// GetLocationByOrg is a handler that serves /org/location endpoint
 func (controller *LocationController) GetLocationByOrg(ctx *gin.Context) {
 	org := ctx.Query("org")
 	if org == "" {
@@ -37,6 +40,7 @@ func (controller *LocationController) GetLocationByOrg(ctx *gin.Context) {
 	ctx.JSON(200, location.ToResponse())
 }
 
+// GetLocationsByCity is a handler that serves /city/locations endpoint
 func (controller *LocationController) GetLocationsByCity(ctx *gin.Context) {
 	city := ctx.Query("city")
 	if city == "" {
@@ -59,6 +63,7 @@ func (controller *LocationController) GetLocationsByCity(ctx *gin.Context) {
 	ctx.JSON(200, result)
 }
 
+// GetLocationsByPostal is a handler that serves /postal/locations endpoint
 func (controller *LocationController) GetLocationsByPostal(ctx *gin.Context) {
 	postal := ctx.Query("postal")
 	if postal == "" {
@@ -81,6 +86,7 @@ func (controller *LocationController) GetLocationsByPostal(ctx *gin.Context) {
 	ctx.JSON(200, result)
 }
 
+// GetLocationsByRegion is a handler that serves /region/locations endpoint
 func (controller *LocationController) GetLocationsByRegion(ctx *gin.Context) {
 	region := ctx.Query("region")
 	if region == "" {
@@ -103,6 +109,7 @@ func (controller *LocationController) GetLocationsByRegion(ctx *gin.Context) {
 	ctx.JSON(200, result)
 }
 
+// GetLocationsByCountry is a handler that serves /country/locations endpoint
 func (controller *LocationController) GetLocationsByCountry(ctx *gin.Context) {
 	country := ctx.Query("country")
 	if country == "" {
