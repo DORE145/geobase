@@ -72,6 +72,7 @@ func TestLocationStorage_GetByCountry(t *testing.T) {
 	}
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locationsMaps, data)
+	require.NoError(t, err)
 
 	item, err := storage.GetByCountry("cou_AK")
 	assert.NoError(t, err)
@@ -96,6 +97,7 @@ func TestLocationStorage_GetByOrg(t *testing.T) {
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locationsMaps, data)
 
+	require.NoError(t, err)
 	item, err := storage.GetByOrg("org_Usikywyjajyj")
 	assert.NoError(t, err)
 	assert.NotNil(t, item)
@@ -116,6 +118,7 @@ func TestLocationStorage_GetByPostal(t *testing.T) {
 	}
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locationsMaps, data)
+	require.NoError(t, err)
 
 	items, err := storage.GetByPostal("pos_8731")
 	assert.NoError(t, err)
@@ -140,6 +143,7 @@ func TestLocationStorage_GetByRegion(t *testing.T) {
 	}
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locationsMaps, data)
+	require.NoError(t, err)
 
 	items, err := storage.GetByRegion("reg_Alimos")
 	assert.NoError(t, err)
@@ -163,6 +167,7 @@ func TestLocationStorage_GetByIndex(t *testing.T) {
 	}
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locationsMaps, data)
+	require.NoError(t, err)
 
 	item, err := storage.GetByIndex(0)
 	assert.NoError(t, err)
