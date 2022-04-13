@@ -13,16 +13,16 @@ import (
 
 // LocationStorage is an inmemory storage for Locations with several indexes
 type LocationStorage struct {
-	locationOffsets map[int]*models.Location
-	cityIndex       []*models.Location
-	countryIndex    []*models.Location
-	orgIndex        []*models.Location
-	postalIndex     []*models.Location
-	regionIndex     []*models.Location
+	locationsList []*models.Location
+	cityIndex     []*models.Location
+	countryIndex  []*models.Location
+	orgIndex      []*models.Location
+	postalIndex   []*models.Location
+	regionIndex   []*models.Location
 }
 
 // NewLocationStorage constructs new inmemory LocationStorage and indexes for different fields
-func NewLocationStorage(locationOffsets map[int]*models.Location, cityIndex []*models.Location) (*LocationStorage, error) {
+func NewLocationStorage(locationsList []*models.Location, cityIndex []*models.Location) (*LocationStorage, error) {
 	// copying references from already sorted cityIndex and creating indexes for all other fields in Location
 	// by sorting them
 	countryIndex := make([]*models.Location, len(cityIndex))
@@ -57,12 +57,12 @@ func NewLocationStorage(locationOffsets map[int]*models.Location, cityIndex []*m
 	}
 	sort.Sort(sorters.ByRegion(regionIndex))
 	return &LocationStorage{
-		locationOffsets: locationOffsets,
-		cityIndex:       cityIndex,
-		countryIndex:    countryIndex,
-		orgIndex:        orgIndex,
-		postalIndex:     postalIndex,
-		regionIndex:     regionIndex,
+		locationsList: locationsList,
+		cityIndex:     cityIndex,
+		countryIndex:  countryIndex,
+		orgIndex:      orgIndex,
+		postalIndex:   postalIndex,
+		regionIndex:   regionIndex,
 	}, nil
 }
 
@@ -308,11 +308,10 @@ func (storage *LocationStorage) GetByCountry(country string) ([]*models.Location
 }
 
 func (storage *LocationStorage) GetByIndex(index int) (*models.Location, error) {
-	// Multiplying index by models.LOCATION_SIZE (96) because it is the size of location record, and they stored by the offset
-	location, ok := storage.locationOffsets[index*models.LOCATION_SIZE]
-	if !ok {
-		logrus.Debugf("Location with offset %d not found", index*models.LOCATION_SIZE)
+	if index >= len(storage.locationsList) {
+		logrus.Debugf("Location with index %d not found", index)
 		return nil, errors.New("location not found")
 	}
+	location := storage.locationsList[index]
 	return location, nil
 }
