@@ -14,12 +14,12 @@ import (
 
 func TestNewLocationStorage(t *testing.T) {
 	data := getTestData()
-	locationsMaps := make(map[int]*models.Location)
-	for i, item := range data {
-		locationsMaps[i*96] = item
+	locations := make([]*models.Location, 0)
+	for _, item := range data {
+		locations = append(locations, item)
 	}
 	sort.Sort(sorters.ByCity(data))
-	storage, err := NewLocationStorage(locationsMaps, data)
+	storage, err := NewLocationStorage(locations, data)
 	assert.NoError(t, err)
 	assert.Equal(t, len(data), len(storage.cityIndex))
 
@@ -43,12 +43,12 @@ func TestNewLocationStorage(t *testing.T) {
 
 func TestLocationStorage_GetByCity(t *testing.T) {
 	data := getTestData()
-	locationsMaps := make(map[int]*models.Location)
-	for i, item := range data {
-		locationsMaps[i*96] = item
+	locations := make([]*models.Location, 0)
+	for _, item := range data {
+		locations = append(locations, item)
 	}
 	sort.Sort(sorters.ByCity(data))
-	storage, _ := NewLocationStorage(locationsMaps, data)
+	storage, _ := NewLocationStorage(locations, data)
 
 	item, err := storage.GetByCity("cit_Elu")
 	assert.NoError(t, err)
@@ -66,12 +66,12 @@ func TestLocationStorage_GetByCity(t *testing.T) {
 
 func TestLocationStorage_GetByCountry(t *testing.T) {
 	data := getTestData()
-	locationsMaps := make(map[int]*models.Location)
-	for i, item := range data {
-		locationsMaps[i*96] = item
+	locations := make([]*models.Location, 0)
+	for _, item := range data {
+		locations = append(locations, item)
 	}
 	sort.Sort(sorters.ByCity(data))
-	storage, err := NewLocationStorage(locationsMaps, data)
+	storage, err := NewLocationStorage(locations, data)
 	require.NoError(t, err)
 
 	item, err := storage.GetByCountry("cou_AK")
@@ -90,12 +90,12 @@ func TestLocationStorage_GetByCountry(t *testing.T) {
 
 func TestLocationStorage_GetByOrg(t *testing.T) {
 	data := getTestData()
-	locationsMaps := make(map[int]*models.Location)
-	for i, item := range data {
-		locationsMaps[i*96] = item
+	locations := make([]*models.Location, 0)
+	for _, item := range data {
+		locations = append(locations, item)
 	}
 	sort.Sort(sorters.ByCity(data))
-	storage, err := NewLocationStorage(locationsMaps, data)
+	storage, err := NewLocationStorage(locations, data)
 
 	require.NoError(t, err)
 	item, err := storage.GetByOrg("org_Usikywyjajyj")
@@ -112,12 +112,12 @@ func TestLocationStorage_GetByOrg(t *testing.T) {
 
 func TestLocationStorage_GetByPostal(t *testing.T) {
 	data := getTestData()
-	locationsMaps := make(map[int]*models.Location)
-	for i, item := range data {
-		locationsMaps[i*96] = item
+	locations := make([]*models.Location, 0)
+	for _, item := range data {
+		locations = append(locations, item)
 	}
 	sort.Sort(sorters.ByCity(data))
-	storage, err := NewLocationStorage(locationsMaps, data)
+	storage, err := NewLocationStorage(locations, data)
 	require.NoError(t, err)
 
 	items, err := storage.GetByPostal("pos_8731")
@@ -137,12 +137,12 @@ func TestLocationStorage_GetByPostal(t *testing.T) {
 
 func TestLocationStorage_GetByRegion(t *testing.T) {
 	data := getTestData()
-	locationsMaps := make(map[int]*models.Location)
-	for i, item := range data {
-		locationsMaps[i*96] = item
+	locations := make([]*models.Location, 0)
+	for _, item := range data {
+		locations = append(locations, item)
 	}
 	sort.Sort(sorters.ByCity(data))
-	storage, err := NewLocationStorage(locationsMaps, data)
+	storage, err := NewLocationStorage(locations, data)
 	require.NoError(t, err)
 
 	items, err := storage.GetByRegion("reg_Alimos")
@@ -161,12 +161,12 @@ func TestLocationStorage_GetByRegion(t *testing.T) {
 
 func TestLocationStorage_GetByIndex(t *testing.T) {
 	data := getTestData()
-	locationsMaps := make(map[int]*models.Location)
-	for i, item := range data {
-		locationsMaps[i*96] = item
+	locations := make([]*models.Location, 0)
+	for _, item := range data {
+		locations = append(locations, item)
 	}
 	sort.Sort(sorters.ByCity(data))
-	storage, err := NewLocationStorage(locationsMaps, data)
+	storage, err := NewLocationStorage(locations, data)
 	require.NoError(t, err)
 
 	item, err := storage.GetByIndex(0)
