@@ -25,9 +25,9 @@ func NewIpRangeStorage(records []*models.IpRange) *IpRangeStorage {
 func (storage *IpRangeStorage) GetIPRange(address uint32) (*models.IpRange, error) {
 	// Binary search implementation, not as graceful as standard library
 	low := 0
-	high := len(storage.records)
+	high := len(storage.records) - 1
 	for low <= high {
-		mid := low/2 + high/2 //Avoiding potential overflow here
+		mid := (low + high) / 2 //Avoiding potential overflow here
 		record := storage.records[mid]
 		if address > record.IpTo {
 			low = mid + 1
