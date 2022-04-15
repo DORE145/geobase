@@ -1,6 +1,8 @@
 package service
 
 import (
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"sort"
 	"testing"
 
@@ -11,7 +13,121 @@ import (
 )
 
 func TestNewLocationService(t *testing.T) {
+	locationStorage, err := getLocationStorage()
+	require.NoError(t, err)
+	require.NotNil(t, locationStorage)
 
+	service := NewLocationService(locationStorage)
+	assert.NotNil(t, service)
+}
+
+func TestLocationService_GetLocationByOrg(t *testing.T) {
+	locationStorage, err := getLocationStorage()
+	require.NoError(t, err)
+	require.NotNil(t, locationStorage)
+
+	service := NewLocationService(locationStorage)
+	require.NotNil(t, service)
+
+	location, err := service.GetLocationByOrg("org_Usikywyjajyj")
+	assert.NoError(t, err)
+	assert.NotNil(t, location)
+	var expected [32]byte
+	copy(expected[:], "org_Usikywyjajyj")
+	assert.Equal(t, expected, location.Organization)
+
+	location, err = service.GetLocationByOrg("something")
+	assert.Error(t, err)
+	assert.Nil(t, location)
+}
+
+func TestLocationService_GetLocationsByCity(t *testing.T) {
+	locationStorage, err := getLocationStorage()
+	require.NoError(t, err)
+	require.NotNil(t, locationStorage)
+
+	service := NewLocationService(locationStorage)
+	require.NotNil(t, service)
+
+	locations, err := service.GetLocationsByCity("cit_Elu")
+	assert.NoError(t, err)
+	assert.NotNil(t, locations)
+	assert.Len(t, locations, 1)
+
+	var expected [24]byte
+	copy(expected[:], "cit_Elu")
+	assert.Equal(t, expected, locations[0].City)
+
+	locations, err = service.GetLocationsByCity("something")
+	assert.Error(t, err)
+	assert.Nil(t, locations)
+}
+
+func TestLocationService_GetLocationsByCountry(t *testing.T) {
+	locationStorage, err := getLocationStorage()
+	require.NoError(t, err)
+	require.NotNil(t, locationStorage)
+
+	service := NewLocationService(locationStorage)
+	require.NotNil(t, service)
+
+	locations, err := service.GetLocationsByCountry("cou_AK")
+	assert.NoError(t, err)
+	assert.NotNil(t, locations)
+	require.Len(t, locations, 1)
+
+	var expected [8]byte
+	copy(expected[:], "cou_AK")
+	assert.Equal(t, expected, locations[0].Country)
+
+	locations, err = locationStorage.GetByCountry("something")
+	assert.Error(t, err)
+	assert.Nil(t, locations)
+}
+
+func TestLocationService_GetLocationsByPostal(t *testing.T) {
+	locationStorage, err := getLocationStorage()
+	require.NoError(t, err)
+	require.NotNil(t, locationStorage)
+
+	service := NewLocationService(locationStorage)
+	require.NotNil(t, service)
+
+	locations, err := service.GetLocationsByPostal("pos_8731")
+	assert.NoError(t, err)
+	assert.NotNil(t, locations)
+	require.Len(t, locations, 2)
+
+	var expected [12]byte
+	copy(expected[:], "pos_8731")
+	assert.Equal(t, expected, locations[0].Postal)
+	assert.Equal(t, expected, locations[1].Postal)
+
+	locations, err = service.GetLocationsByPostal("something")
+	assert.Error(t, err)
+	assert.Nil(t, locations)
+}
+
+func TestLocationService_GetLocationsByRegion(t *testing.T) {
+	locationStorage, err := getLocationStorage()
+	require.NoError(t, err)
+	require.NotNil(t, locationStorage)
+
+	service := NewLocationService(locationStorage)
+	require.NotNil(t, service)
+
+	locations, err := service.GetLocationsByRegion("reg_Alimos")
+	assert.NoError(t, err)
+	assert.NotNil(t, locations)
+	require.Len(t, locations, 1)
+
+	var expected [12]byte
+	copy(expected[:], "reg_Alimos")
+	assert.Equal(t, expected, locations[0].Region)
+
+	locations, err = service.GetLocationsByRegion("something")
+	assert.Error(t, err)
+	assert.Nil(t, locations)
 }
 
 func getLocationStorage() (storage.LocationStorage, error) {
