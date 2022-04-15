@@ -18,7 +18,7 @@ func TestNewIpRangeService(t *testing.T) {
 	assert.NotNil(t, service)
 }
 
-func TestGetLocationByIP(t *testing.T) {
+func TestIPRangeService_GetLocationByIP(t *testing.T) {
 	ipStorage := getIPRangeStorage()
 	locationStorage, err := getLocationStorage()
 	require.NoError(t, err)
