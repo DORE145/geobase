@@ -1,7 +1,6 @@
 package service
 
 import (
-	"context"
 	"github.com/DORE145/geobase/models"
 	"github.com/DORE145/geobase/storage"
 	"github.com/sirupsen/logrus"
@@ -10,14 +9,12 @@ import (
 // LocationService is a service that retrieves locations data and processes it if needed
 type LocationService struct {
 	storage storage.LocationStorage
-	ctx     context.Context
 }
 
 // NewLocationService constructs and returns new LocationService
-func NewLocationService(storage storage.LocationStorage, ctx context.Context) *LocationService {
+func NewLocationService(storage storage.LocationStorage) *LocationService {
 	return &LocationService{
 		storage: storage,
-		ctx:     ctx,
 	}
 }
 
