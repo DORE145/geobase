@@ -98,6 +98,7 @@ func (loader *BinaryDataLoader) LoadLocations() ([]*models.Location, error) {
 		err = binary.Read(buffer, binary.LittleEndian, &location)
 		if err != nil {
 			logrus.Errorf("Reading binary file failed with error %s", err)
+			return nil, err
 		}
 		locationsList = append(locationsList, &location)
 		logrus.Debugf("Location for org %s is processed", string(location.Organization[:]))
@@ -136,8 +137,8 @@ func (loader *BinaryDataLoader) LoadLocationsCityIndex(locationsList []*models.L
 
 	// Creating list of locations sorted by city
 	sortedLocations := make([]*models.Location, 0, len(locationsList))
-	for i, location := range locationIndexes {
-		sortedLocations[i] = locationsList[location]
+	for _, location := range locationIndexes {
+		sortedLocations = append(sortedLocations, locationsList[location])
 	}
 
 	return sortedLocations, nil
