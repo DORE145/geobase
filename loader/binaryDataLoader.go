@@ -138,7 +138,8 @@ func (loader *BinaryDataLoader) LoadLocationsCityIndex(locationsList []*models.L
 	// Creating list of locations sorted by city
 	sortedLocations := make([]*models.Location, 0, len(locationsList))
 	for _, location := range locationIndexes {
-		sortedLocations = append(sortedLocations, locationsList[location])
+		index := location / models.LOCATION_SIZE
+		sortedLocations = append(sortedLocations, locationsList[index])
 	}
 
 	return sortedLocations, nil
