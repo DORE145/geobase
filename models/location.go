@@ -1,5 +1,7 @@
 package models
 
+import "bytes"
+
 const LOCATION_SIZE = 96
 
 // Location represents the location of specific organizations and cities
@@ -33,11 +35,11 @@ type LocationResp struct {
 
 func (location Location) ToResponse() LocationResp {
 	return LocationResp{
-		Country:      string(location.Country[:]),
-		Region:       string(location.Region[:]),
-		Postal:       string(location.Postal[:]),
-		City:         string(location.City[:]),
-		Organization: string(location.Organization[:]),
+		Country:      string(bytes.Trim(location.Country[:], "\u0000")),
+		Region:       string(bytes.Trim(location.Region[:], "\u0000")),
+		Postal:       string(bytes.Trim(location.Postal[:], "\u0000")),
+		City:         string(bytes.Trim(location.City[:], "\u0000")),
+		Organization: string(bytes.Trim(location.Organization[:], "\u0000")),
 		Latitude:     location.Latitude,
 		Longitude:    location.Longitude,
 	}
