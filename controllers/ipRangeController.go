@@ -29,7 +29,7 @@ func (controller *IPRangeController) GetIPRange(ctx *gin.Context) {
 		return
 	}
 	ip, err := conversion.IPStringToUint32(ipString)
-	if ipString == "" {
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": "Unparsable ip address provided",
 		})

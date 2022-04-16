@@ -15,9 +15,8 @@ import (
 func TestNewLocationStorage(t *testing.T) {
 	data := getTestData()
 	locations := make([]*models.Location, 0)
-	for _, item := range data {
-		locations = append(locations, item)
-	}
+	locations = append(locations, data...)
+
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locations, data)
 	assert.NoError(t, err)
@@ -44,9 +43,8 @@ func TestNewLocationStorage(t *testing.T) {
 func TestLocationStorage_GetByCity(t *testing.T) {
 	data := getTestData()
 	locations := make([]*models.Location, 0)
-	for _, item := range data {
-		locations = append(locations, item)
-	}
+	locations = append(locations, data...)
+
 	sort.Sort(sorters.ByCity(data))
 	storage, _ := NewLocationStorage(locations, data)
 
@@ -67,9 +65,8 @@ func TestLocationStorage_GetByCity(t *testing.T) {
 func TestLocationStorage_GetByCountry(t *testing.T) {
 	data := getTestData()
 	locations := make([]*models.Location, 0)
-	for _, item := range data {
-		locations = append(locations, item)
-	}
+	locations = append(locations, data...)
+
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locations, data)
 	require.NoError(t, err)
@@ -91,9 +88,8 @@ func TestLocationStorage_GetByCountry(t *testing.T) {
 func TestLocationStorage_GetByOrg(t *testing.T) {
 	data := getTestData()
 	locations := make([]*models.Location, 0)
-	for _, item := range data {
-		locations = append(locations, item)
-	}
+	locations = append(locations, data...)
+
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locations, data)
 
@@ -113,9 +109,8 @@ func TestLocationStorage_GetByOrg(t *testing.T) {
 func TestLocationStorage_GetByPostal(t *testing.T) {
 	data := getTestData()
 	locations := make([]*models.Location, 0)
-	for _, item := range data {
-		locations = append(locations, item)
-	}
+	locations = append(locations, data...)
+
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locations, data)
 	require.NoError(t, err)
@@ -138,9 +133,8 @@ func TestLocationStorage_GetByPostal(t *testing.T) {
 func TestLocationStorage_GetByRegion(t *testing.T) {
 	data := getTestData()
 	locations := make([]*models.Location, 0)
-	for _, item := range data {
-		locations = append(locations, item)
-	}
+	locations = append(locations, data...)
+
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locations, data)
 	require.NoError(t, err)
@@ -162,9 +156,8 @@ func TestLocationStorage_GetByRegion(t *testing.T) {
 func TestLocationStorage_GetByIndex(t *testing.T) {
 	data := getTestData()
 	locations := make([]*models.Location, 0)
-	for _, item := range data {
-		locations = append(locations, item)
-	}
+	locations = append(locations, data...)
+
 	sort.Sort(sorters.ByCity(data))
 	storage, err := NewLocationStorage(locations, data)
 	require.NoError(t, err)

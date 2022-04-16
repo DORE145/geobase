@@ -70,5 +70,9 @@ func main() {
 	locationsController.RegisterLocationRouts(rootGroup)
 	ipRangeController.RegisterIPRangeRoutes(rootGroup)
 	address := fmt.Sprintf(":%d", port)
-	server.Run(address)
+
+	err = server.Run(address)
+	if err != nil {
+		logrus.Fatalf("Server crashed with error: %s", err)
+	}
 }

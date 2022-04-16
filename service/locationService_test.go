@@ -261,9 +261,8 @@ func getLocationStorage() (storage.LocationStorage, error) {
 	})
 
 	locationsIndex := make([]*models.Location, 0)
-	for _, item := range locations {
-		locationsIndex = append(locationsIndex, item)
-	}
+	locationsIndex = append(locationsIndex, locations...)
+
 	sort.Sort(sorters.ByCity(locationsIndex))
 
 	return inmemory.NewLocationStorage(locations, locationsIndex)
