@@ -49,6 +49,7 @@ func (controller *LocationController) GetLocationsByCity(ctx *gin.Context) {
 		})
 		return
 	}
+	var locations models.Locations
 	locations, err := controller.LocationService.GetLocationsByCity(city)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
@@ -56,10 +57,7 @@ func (controller *LocationController) GetLocationsByCity(ctx *gin.Context) {
 		})
 		return
 	}
-	result := make([]models.LocationResp, 0, len(locations))
-	for _, location := range locations {
-		result = append(result, location.ToResponse())
-	}
+	result := locations.ToResponse()
 	ctx.JSON(200, result)
 }
 
@@ -72,6 +70,7 @@ func (controller *LocationController) GetLocationsByPostal(ctx *gin.Context) {
 		})
 		return
 	}
+	var locations models.Locations
 	locations, err := controller.LocationService.GetLocationsByPostal(postal)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
@@ -79,10 +78,8 @@ func (controller *LocationController) GetLocationsByPostal(ctx *gin.Context) {
 		})
 		return
 	}
-	result := make([]models.LocationResp, 0, len(locations))
-	for _, location := range locations {
-		result = append(result, location.ToResponse())
-	}
+
+	result := locations.ToResponse()
 	ctx.JSON(200, result)
 }
 
@@ -95,6 +92,7 @@ func (controller *LocationController) GetLocationsByRegion(ctx *gin.Context) {
 		})
 		return
 	}
+	var locations models.Locations
 	locations, err := controller.LocationService.GetLocationsByCity(region)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
@@ -102,10 +100,8 @@ func (controller *LocationController) GetLocationsByRegion(ctx *gin.Context) {
 		})
 		return
 	}
-	result := make([]models.LocationResp, 0, len(locations))
-	for _, location := range locations {
-		result = append(result, location.ToResponse())
-	}
+
+	result := locations.ToResponse()
 	ctx.JSON(200, result)
 }
 
@@ -118,6 +114,8 @@ func (controller *LocationController) GetLocationsByCountry(ctx *gin.Context) {
 		})
 		return
 	}
+
+	var locations models.Locations
 	locations, err := controller.LocationService.GetLocationsByCity(country)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
@@ -125,10 +123,8 @@ func (controller *LocationController) GetLocationsByCountry(ctx *gin.Context) {
 		})
 		return
 	}
-	result := make([]models.LocationResp, 0, len(locations))
-	for _, location := range locations {
-		result = append(result, location.ToResponse())
-	}
+
+	result := locations.ToResponse()
 	ctx.JSON(200, result)
 }
 

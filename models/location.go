@@ -23,6 +23,8 @@ type Location struct {
 	Longitude    float32
 }
 
+type Locations []*Location
+
 type LocationResp struct {
 	Country      string  `json:"country"`
 	Region       string  `json:"region"`
@@ -32,6 +34,8 @@ type LocationResp struct {
 	Latitude     float32 `json:"latitude"`
 	Longitude    float32 `json:"longitude"`
 }
+
+type LocationsResp []*LocationResp
 
 func (location Location) ToResponse() LocationResp {
 	return LocationResp{
@@ -43,4 +47,13 @@ func (location Location) ToResponse() LocationResp {
 		Latitude:     location.Latitude,
 		Longitude:    location.Longitude,
 	}
+}
+
+func (locations Locations) ToResponse() LocationsResp {
+	locationsResp := make([]*LocationResp, 0, len(locations))
+	for _, loc := range locations {
+		locationResp := loc.ToResponse()
+		locationsResp = append(locationsResp, &locationResp)
+	}
+	return locationsResp
 }
