@@ -1,0 +1,315 @@
+{
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "the purpose of this application is to provide an application\nthat is binary database to serve geobase info",
+    "title": "Geobase task",
+    "termsOfService": "there are no TOS at this moment",
+    "contact": {
+      "name": "Michael Kuzhel",
+      "email": "michael.kuzhel@gmail.com"
+    },
+    "version": "0.0.1"
+  },
+  "host": "localhost",
+  "paths": {
+    "/city/location": {
+      "get": {
+        "description": "Returns all locations in a city",
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "Location"
+        ],
+        "operationId": "cityLocations",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "City to find locations in",
+            "name": "city",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/locations"
+          },
+          "400": {
+            "$ref": "#/responses/badParameter"
+          },
+          "404": {
+            "$ref": "#/responses/notFound"
+          }
+        }
+      }
+    },
+    "/country/location": {
+      "get": {
+        "description": "Returns all locations from specified country",
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "Location"
+        ],
+        "operationId": "countryLocations",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Country to get locations from",
+            "name": "country",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/locations"
+          },
+          "400": {
+            "$ref": "#/responses/badParameter"
+          },
+          "404": {
+            "$ref": "#/responses/notFound"
+          }
+        }
+      }
+    },
+    "/ip/location": {
+      "get": {
+        "description": "Returns a location based on provided IP address",
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "Location"
+        ],
+        "operationId": "ipLocation",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "ip address to find location for",
+            "name": "ip",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/location"
+          },
+          "400": {
+            "$ref": "#/responses/badParameter"
+          },
+          "404": {
+            "$ref": "#/responses/notFound"
+          }
+        }
+      }
+    },
+    "/org/location": {
+      "get": {
+        "description": "Returns a location for an organization",
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "Location"
+        ],
+        "operationId": "orgLocation",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Organization to find location for",
+            "name": "org",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/location"
+          },
+          "400": {
+            "$ref": "#/responses/badParameter"
+          },
+          "404": {
+            "$ref": "#/responses/notFound"
+          }
+        }
+      }
+    },
+    "/postal/location": {
+      "get": {
+        "description": "Returns all locations with specified postal code",
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "Location"
+        ],
+        "operationId": "postalLocations",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Postal code to get locations with",
+            "name": "postal",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/locations"
+          },
+          "400": {
+            "$ref": "#/responses/badParameter"
+          },
+          "404": {
+            "$ref": "#/responses/notFound"
+          }
+        }
+      }
+    },
+    "/region/location": {
+      "get": {
+        "description": "Returns all locations from specified region",
+        "produces": [
+          "application/json"
+        ],
+        "schemes": [
+          "http"
+        ],
+        "tags": [
+          "Location"
+        ],
+        "operationId": "regionLocations",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Region to get locations from",
+            "name": "region",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/locations"
+          },
+          "400": {
+            "$ref": "#/responses/badParameter"
+          },
+          "404": {
+            "$ref": "#/responses/notFound"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LocationResp": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string",
+          "x-go-name": "City"
+        },
+        "country": {
+          "type": "string",
+          "x-go-name": "Country"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "Latitude"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "float",
+          "x-go-name": "Longitude"
+        },
+        "organization": {
+          "type": "string",
+          "x-go-name": "Organization"
+        },
+        "postal": {
+          "type": "string",
+          "x-go-name": "Postal"
+        },
+        "region": {
+          "type": "string",
+          "x-go-name": "Region"
+        }
+      },
+      "x-go-package": "github.com/DORE145/geobase/models"
+    }
+  },
+  "responses": {
+    "badParameter": {
+      "description": "BadRequestResponse is an error that is used when required query parameter is not found"
+    },
+    "location": {
+      "description": "",
+      "headers": {
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "organization": {
+          "type": "string"
+        },
+        "postal": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        }
+      }
+    },
+    "locations": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/LocationResp"
+        }
+      }
+    },
+    "notFound": {
+      "description": "NotFoundResponse is an error that is used when the location is not found"
+    }
+  }
+}

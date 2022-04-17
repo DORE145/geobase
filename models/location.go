@@ -25,6 +25,9 @@ type Location struct {
 
 type Locations []*Location
 
+// swagger:response location
+// in: body
+// name: Location
 type LocationResp struct {
 	Country      string  `json:"country"`
 	Region       string  `json:"region"`
@@ -35,6 +38,9 @@ type LocationResp struct {
 	Longitude    float32 `json:"longitude"`
 }
 
+// swagger:response locations
+// in: body
+// name Locations
 type LocationsResp []*LocationResp
 
 func (location Location) ToResponse() LocationResp {

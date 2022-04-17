@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/DORE145/geobase/models"
 	"github.com/DORE145/geobase/service"
 	"github.com/DORE145/geobase/utils/conversion"
 	"github.com/gin-gonic/gin"
@@ -20,26 +21,40 @@ func NewIPRangeController(service service.IPRangeService) IPRangeController {
 }
 
 // GetIPRange is a handler that serves /ip/location route
+// swagger:route GET /ip/location Location ipLocation
+//
+// Returns a location based on provided IP address
+//
+//     Produces:
+//     - application/json
+//
+//     Schemes: http
+//
+//     Parameters:
+//       + name: ip
+//         in: query
+//         description: ip address to find location for
+//         required: true
+//         type: string
+//
+//     Responses:
+//       200: location
+//       400: badParameter
+//		 404: notFound
 func (controller *IPRangeController) GetIPRange(ctx *gin.Context) {
 	ipString := ctx.Query("ip")
 	if ipString == "" {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": "Query parameter ip is not found",
-		})
+		ctx.JSON(http.StatusBadRequest, models.BadRequestResponse{Message: "Query parameter ip is not found"})
 		return
 	}
 	ip, err := conversion.IPStringToUint32(ipString)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": "Unparsable ip address provided",
-		})
+		ctx.JSON(http.StatusBadRequest, models.BadRequestResponse{Message: "Unparsable ip address provided"})
 		return
 	}
 	location, err := controller.ipService.GetLocationByIP(ip)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{
-			"error": "Location not found",
-		})
+		ctx.JSON(http.StatusNotFound, models.NotFoundResponse{Message: "Location not found"})
 		return
 	}
 
